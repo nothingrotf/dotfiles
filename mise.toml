@@ -32,6 +32,37 @@ dir = "{{ env.HOME }}/Workspaces/pi-extensions"
 tools.bun = "1.4.2"
 run = "bun install --frozen-lockfile"
 
+[tasks."brew:check"]
+description = "Check the recorded Homebrew packages without installing"
+run = 'sh "{{ config_root }}/scripts/brew.sh" check'
+
+[tasks."brew:install"]
+description = "Install recorded packages without upgrading existing packages"
+run = 'sh "{{ config_root }}/scripts/brew.sh" install'
+
+[tasks."brew:dump"]
+description = "Refresh the Homebrew snapshot from this Mac"
+run = 'sh "{{ config_root }}/scripts/brew.sh" dump'
+
+[tasks."brew:apps:check"]
+description = "Check apps originally installed outside Homebrew"
+run = 'sh "{{ config_root }}/scripts/brew.sh" apps-check'
+
+[tasks."brew:apps:install"]
+description = "Install the additional apps through Homebrew"
+run = 'sh "{{ config_root }}/scripts/brew.sh" apps-install'
+
+[tasks."macos:plan"]
+description = "Preview the recorded macOS preferences without writing"
+tools.python = "3.14.0"
+run = 'python3 "{{ config_root }}/scripts/macos.py" plan'
+
+[tasks."macos:apply"]
+description = "Confirm and apply the recorded macOS preferences"
+raw = true
+tools.python = "3.14.0"
+run = 'python3 "{{ config_root }}/scripts/macos.py" apply'
+
 [tasks.test]
 description = "Test deployment in isolated temporary home directories"
 tools.python = "3.14.0"

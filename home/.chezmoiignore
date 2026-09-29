@@ -14,6 +14,54 @@ AGENTS.md
 {{ if not (get . "runtimes") }}
 .config/mise
 {{ end }}
+{{ if or (not (get . "brew")) (ne .chezmoi.os "darwin") }}
+.Brewfile
+.config/homebrew
+{{ end }}
+{{ if not (get . "shell") }}
+.bash_profile
+.bashrc
+.profile
+.zprofile
+.zshenv
+.zshrc
+.tcshrc
+.hushlogin
+.config/fish
+.config/shell
+{{ end }}
+{{ if not (get . "git") }}
+.gitconfig
+.config/git
+{{ end }}
+{{ if not (get . "cli") }}
+.tmux.conf
+.config/starship.toml
+.config/atuin
+.config/yazi
+.config/worktrunk
+.config/gh
+.config/ccstatusline
+{{ end }}
+{{ if not (get . "herdr") }}
+.config/herdr
+{{ end }}
+{{ if not (get . "opencode") }}
+.config/opencode
+{{ end }}
+{{ if or (not (get . "kaku")) (ne .chezmoi.os "darwin") }}
+.config/kaku
+{{ end }}
+**/.gitconfig.local
+**/hosts.yml
+**/credentials*
+**/github-credentials
+**/session.json
+**/last_session.json
+**/state.json
+**/fish_variables
+**/atuin-receipt.json
+**/*.lock
 **/.DS_Store
 **/auth.json
 **/models-store.json

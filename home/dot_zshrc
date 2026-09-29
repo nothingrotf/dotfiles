@@ -1,0 +1,15 @@
+if [ -r "$HOME/.config/shell/env.sh" ]; then
+    . "$HOME/.config/shell/env.sh"
+fi
+if [ -r "$HOME/.atuin/bin/env" ]; then
+    . "$HOME/.atuin/bin/env"
+fi
+if command -v mise >/dev/null 2>&1; then
+    eval "$(mise activate zsh)"
+fi
+if command -v atuin >/dev/null 2>&1; then
+    eval "$(atuin init zsh)"
+fi
+if command -v wt >/dev/null 2>&1; then
+    eval "$(command wt config shell init zsh)"
+fi

@@ -1,0 +1,11 @@
+version: 1
+git_protocol: https
+prompt: disabled
+prefer_editor_prompt: disabled
+pager: cat
+aliases:
+    co: pr checkout
+color_labels: disabled
+accessible_colors: disabled
+accessible_prompter: disabled
+spinner: enabled

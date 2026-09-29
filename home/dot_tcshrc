@@ -1,0 +1,1 @@
+if ( -r "$HOME/.cargo/env.tcsh" ) source "$HOME/.cargo/env.tcsh"

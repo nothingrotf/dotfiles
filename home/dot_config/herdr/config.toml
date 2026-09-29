@@ -1,0 +1,15 @@
+onboarding = false
+
+[theme]
+name = "kanagawa"
+
+[ui]
+agent_panel_scope = "all"
+agent_panel_sort = "spaces"
+status_indicators = "symbols"
+
+[ui.sound]
+enabled = false
+
+[ui.toast]
+delivery = "system"

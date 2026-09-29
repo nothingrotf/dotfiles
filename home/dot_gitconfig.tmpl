@@ -1,0 +1,22 @@
+{{- if and (get . "git") (not (and (get . "gitName" | default "" | trim) (get . "gitEmail" | default "" | trim))) -}}
+{{- fail "Git author name and email are required; initialize gitName and gitEmail before applying" -}}
+{{- end -}}
+{{ if and (get . "gitName") (get . "gitEmail") -}}
+[user]
+    name = {{ get . "gitName" | quote }}
+    email = {{ get . "gitEmail" | quote }}
+{{ end -}}
+[init]
+    defaultBranch = master
+[pull]
+    rebase = true
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+[alias]
+    l = log --oneline --graph --decorate -20
+    s = status -sb
+[include]
+    path = ~/.gitconfig.local

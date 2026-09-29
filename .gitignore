@@ -22,6 +22,17 @@ mise.*.local.toml
 local/
 backups/
 auth.json
+hosts.yml
+credentials*
+github-credentials
+.gitconfig.local
+dot_gitconfig.local
+session.json
+last_session.json
+state.json
+fish_variables
+atuin-receipt.json
+*.lock
 models-store.json
 mcp-oauth/
 mcp-onboarding.json

@@ -1,0 +1,16 @@
+[
+  {"domain": "NSGlobalDomain", "key": "AppleShowAllExtensions", "type": "bool", "value": true},
+  {"domain": "NSGlobalDomain", "key": "AppleInterfaceStyle", "type": "string", "value": "Dark"},
+  {"domain": "NSGlobalDomain", "key": "KeyRepeat", "type": "float", "value": 2},
+  {"domain": "NSGlobalDomain", "key": "InitialKeyRepeat", "type": "float", "value": 15},
+  {"domain": "NSGlobalDomain", "key": "NSAutomaticCapitalizationEnabled", "type": "bool", "value": true},
+  {"domain": "NSGlobalDomain", "key": "NSAutomaticPeriodSubstitutionEnabled", "type": "bool", "value": true},
+  {"domain": "com.apple.finder", "key": "FXPreferredViewStyle", "type": "string", "value": "icnv"},
+  {"domain": "com.apple.finder", "key": "FXDefaultSearchScope", "type": "string", "value": "SCcf"},
+  {"domain": "com.apple.dock", "key": "autohide", "type": "bool", "value": true},
+  {"domain": "com.apple.dock", "key": "tilesize", "type": "float", "value": 55},
+  {"domain": "com.apple.dock", "key": "magnification", "type": "bool", "value": true},
+  {"domain": "com.apple.dock", "key": "largesize", "type": "float", "value": 82},
+  {"domain": "com.apple.dock", "key": "show-recents", "type": "bool", "value": false},
+  {"domain": "com.apple.dock", "key": "minimize-to-application", "type": "bool", "value": true}
+]

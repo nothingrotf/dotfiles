@@ -54,13 +54,14 @@ mise run apply
 mise run status
 ```
 
-No installation step changes shell startup files, runs background services, or pushes Git commits.
-Authentication and application installation remain separate.
+Initialization does not change shell startup files or start services.
+The optional `shell` module replaces startup files only after a reviewed apply.
+Authentication, package installation, and macOS preferences remain separate tasks.
 
 ## Layout
 
 `.chezmoiroot` limits deployment to `home/`.
-Root documentation, tests, workflows, and `mise.toml` are never deployed into the home directory.
+Root documentation, tests, workflows, scripts, inventories, preferences, and `mise.toml` never deploy into the home directory.
 
 | Source | Destination | Module |
 | --- | --- | --- |
@@ -70,9 +71,17 @@ Root documentation, tests, workflows, and `mise.toml` are never deployed into th
 | `home/dot_config/zed/` | `~/.config/zed/` | `zed` |
 | `home/dot_config/ghostty/` | `~/.config/ghostty/` | `ghostty` |
 | `home/dot_config/mise/conf.d/dotfiles-tools.toml` | `~/.config/mise/conf.d/dotfiles-tools.toml` | `runtimes` |
+| `home/dot_Brewfile`, `home/dot_config/homebrew/` | `~/.Brewfile`, `~/.config/homebrew/` | `brew` |
+| Shell startup files, `home/dot_config/fish/`, `home/dot_config/shell/` | Zsh, Bash, Fish, and Tcsh configuration | `shell` |
+| `home/dot_gitconfig.tmpl`, `home/dot_config/git/` | `~/.gitconfig`, `~/.config/git/` | `git` |
+| `home/dot_tmux.conf`, CLI configuration directories | Tmux, Starship, Atuin, Yazi, Worktrunk, GitHub CLI, ccstatusline | `cli` |
+| `home/dot_config/herdr/` | `~/.config/herdr/` | `herdr` |
+| `home/dot_config/opencode/` | `~/.config/opencode/` | `opencode` |
+| `home/dot_config/kaku/` | `~/.config/kaku/` | `kaku` |
 
 The `dot_` prefix represents a leading dot in a deployed filename.
 The `executable_` prefix preserves executable scripts.
+The `empty_` prefix ensures that chezmoi creates the empty `~/.hushlogin` file.
 The `private_` prefix preserves `~/.pi/agent` permissions at `0700` and Zed settings permissions at `0600`.
 The clone can live anywhere because chezmoi resolves sources from its configured source directory.
 
@@ -82,9 +91,12 @@ Adjust the source layout before applying on machines that use different applicat
 
 ## Machine-specific modules
 
-Initialization prompts for `agents`, `pi`, `zed`, `ghostty`, and `runtimes`.
-All prompts default to enabled, but initialization alone writes no application files.
+Initialization prompts for every module in the layout table.
+The original `agents`, `pi`, `zed`, `ghostty`, and `runtimes` modules default to enabled.
+New modules default to disabled to preserve existing shell and Git configuration.
 Without initialized selections, every module stays disabled.
+The `brew` and `kaku` modules deploy files only on macOS.
+Initialization alone writes no application files.
 
 The generated `~/.config/chezmoi/chezmoi.toml` contains local data such as:
 
@@ -95,6 +107,15 @@ pi = true
 zed = false
 ghostty = false
 runtimes = true
+brew = false
+shell = false
+git = false
+cli = false
+herdr = false
+opencode = false
+kaku = false
+gitName = ""
+gitEmail = ""
 ```
 
 Keep the generated `sourceDir` when editing that file.
@@ -159,7 +180,8 @@ This installs every selected global tool, including tools declared outside this 
 Project configurations can override these defaults.
 Change shared versions in `home/dot_config/mise/conf.d/dotfiles-tools.toml`.
 
-Add the appropriate activation command once to the existing shell configuration:
+The `shell` module activates mise in interactive Zsh, Bash, and Fish sessions when the executable exists.
+Without that module, add the appropriate activation command once to the existing shell configuration:
 
 ```sh
 eval "$(mise activate zsh)"
@@ -168,6 +190,121 @@ eval "$(mise activate zsh)"
 For Bash, use `eval "$(mise activate bash)"` instead.
 For Fish, use `mise activate fish | source` in `~/.config/fish/config.fish`.
 Deactivate competing runtime managers for the same tools before enabling mise.
+
+## Homebrew packages and applications
+
+`home/dot_Brewfile` records the current Homebrew taps, requested formulae, casks, Go packages, uv tools, and npm packages.
+Homebrew resolves transitive formula dependencies instead of recording every installed library.
+The snapshot preserves existing Homebrew Node versions, even though the `runtimes` module also declares Node.
+It records current state rather than migrating runtime ownership.
+Review third-party taps and duplicated runtimes before installing on another machine.
+
+The `brew` module deploys manifests only.
+Tasks read the manifests directly from the checkout, so they do not require a chezmoi apply.
+Check or install the recorded packages explicitly:
+
+```sh
+mise run brew:check
+mise run brew:install
+```
+
+Check and install tasks pass `--no-upgrade` to preserve existing package versions.
+The install task disables Homebrew's automatic installation cleanup and does not run cleanup or service commands.
+Homebrew can still upgrade dependencies when a package installation requires them.
+No task removes existing packages or forces an application overwrite.
+
+`home/dot_config/homebrew/Brewfile.apps` lists 13 additional apps found outside the Homebrew installation inventory.
+Their current Homebrew cask identifiers were checked during import.
+Keep this manifest separate because an existing app bundle can conflict with a cask installation.
+
+```sh
+mise run brew:apps:check
+mise run brew:apps:install
+```
+
+Move or uninstall a conflicting app manually before installing its cask.
+Do not use a forced overwrite without a backup.
+Dia, Zeron, T3 Code Nightly, Apple apps, and the Claude Code URL handler remain outside this additional manifest.
+`inventory/apps.json` records the application names, including those without a checked cask mapping.
+
+After an intentional package change, refresh only the Homebrew snapshot:
+
+```sh
+mise run brew:dump
+git diff -- home/dot_Brewfile
+```
+
+The dump omits description comments and service restart directives.
+It does not update the manually maintained additional-app manifest.
+`inventory/bun-global.json` records the existing Bun global package specifications.
+That inventory includes platform-specific packages and overlapping CLIs, so no task installs it automatically.
+
+## Shell and Git configuration
+
+Back up existing startup files before enabling `shell`.
+The module preserves shell integrations and aliases while replacing fixed usernames with `$HOME`.
+Optional tools and environment files receive existence checks.
+Shell startup does not download tools.
+
+The shared profile discovers Homebrew.
+A shared shell fragment adds existing personal executable directories and the Homebrew rustup directory.
+Login profiles and interactive Bash and Zsh sessions load this fragment.
+Fish receives equivalent Homebrew initialization and path setup.
+Bash and Zsh login shells load the shared profile.
+Fish retains Starship, rbenv, Atuin, Worktrunk, and the `eza` and `bat` aliases.
+Mise activates only in interactive shells.
+The previous NVM startup snippet is omitted to avoid competing with mise.
+
+Bash enables Atuin only when the unmanaged `~/.bash-preexec.sh` dependency exists.
+Restore that dependency separately when Bash history integration is required.
+Atuin preferences preserve daemon autostart, so starting an integrated shell can start its daemon.
+Generated Python, Vite+, Kaku, and completion files remain owned by their installers.
+
+When enabling `git`, provide the existing author name and email during initialization.
+Chezmoi stores those values in local `gitName` and `gitEmail` data, not in repository files.
+Applying the Git module fails before replacing its configuration when either identity value is blank.
+The Git template preserves the current branch default, pull policy, LFS filters, and aliases.
+Install Git LFS separately when a repository requires those filters.
+An optional `~/.gitconfig.local` include overrides shared settings without entering version control.
+SSH keys, SSH host configuration, signing keys, and GitHub authentication remain machine-local.
+
+## CLI and terminal preferences
+
+The `cli` module preserves preferences for Atuin, Starship, Yazi, Worktrunk, GitHub CLI, Tmux, and ccstatusline.
+Atuin history and sync credentials remain local.
+Worktrunk's empty project table is omitted to keep future project trust choices unmanaged.
+Yazi includes both local Kaku flavors and preserves the current dark flavor selection.
+Tmux loads Kaku's generated integration only when that file exists.
+
+The `herdr` module contains daemon preferences and GUI overrides, not generated GUI defaults.
+Sessions, plugin installation records, runtime locks, credentials, and local checkout paths remain excluded.
+The `kaku` module preserves the existing Lua overrides and loads application-bundled defaults.
+Kaku retains ownership of generated shell integrations and terminal session state.
+
+The `opencode` module contains the main settings and the three existing Plannotator commands.
+It preserves the current unrestricted permission policy and Chrome DevTools MCP declaration.
+Review that policy before enabling the module on a shared machine.
+Herdr and Poracode installers retain ownership of their OpenCode plugin files.
+Reinstall those integrations through their owning applications instead of copying generated code into dotfiles.
+
+## macOS preferences
+
+`preferences/macos.json` records 14 selected preferences from the current machine.
+It covers appearance, keyboard repeat, automatic text behavior, Finder, and Dock.
+It excludes recent documents, application positions, accounts, and arbitrary preference databases.
+These preferences remain independent of chezmoi modules.
+
+Preview the typed commands before applying:
+
+```sh
+mise run macos:plan
+mise run macos:apply
+```
+
+The apply task requires an explicit `y` confirmation.
+It does not restart applications or change the login shell.
+Log out and back in when an application does not refresh its preferences.
+Both tasks reject non-macOS systems.
 
 ## Daily workflow
 
@@ -226,7 +363,8 @@ mise run test
 
 The suite invokes the real chezmoi CLI against temporary homes and source checkouts.
 It checks initialization, module selection, dry runs, diffs, idempotence, executable permissions, and preservation of unmanaged state.
-It also checks local module choices and the global mise runtime fragment.
+It also checks local module choices, Git identity rendering, and the global mise runtime fragment.
+Additional tests validate shell startup, package task arguments, platform guards, and macOS confirmation without changing preferences.
 The GitHub Actions workflow runs the suite on macOS and Linux.
 The suite validates deployment, not the behavior of Pi, Zed, or Ghostty.
 Imported skill references retain their original whitespace, so `git diff --check` reports Markdown whitespace warnings in those files.

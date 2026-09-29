@@ -1,0 +1,11 @@
+for dotfiles_brew in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+    if [ -x "$dotfiles_brew" ]; then
+        eval "$("$dotfiles_brew" shellenv)"
+        break
+    fi
+done
+unset dotfiles_brew
+
+if [ -r "$HOME/.config/shell/env.sh" ]; then
+    . "$HOME/.config/shell/env.sh"
+fi

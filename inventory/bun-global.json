@@ -1,0 +1,21 @@
+{
+  "@bitwarden/cli": "^2026.5.0",
+  "@colbymchenry/codegraph": "^1.0.1",
+  "@earendil-works/pi-coding-agent": "0.99.1",
+  "@fission-ai/openspec": "^1.4.1",
+  "@oh-my-pi/pi-coding-agent": "18.0.3",
+  "@oh-my-pi/pi-natives": "18.0.3",
+  "@oh-my-pi/pi-natives-darwin-arm64": "18.0.3",
+  "@openai/codex": "^0.158.0",
+  "@opencode-ai/cli": "^0.0.0-beta-19242",
+  "@sentry/warden": "^0.40.0",
+  "cf": "^1.0.0-beta.5",
+  "eas-cli": "21.7.0",
+  "effect-solutions": "^0.5.3",
+  "hunkdiff": "^0.17.1",
+  "impeccable": "^2.1.8",
+  "observability": "equipe-tech/observability",
+  "shadcn": "^4.8.0",
+  "typescript": "^7.0.2",
+  "typescript-language-server": "^6.0.0"
+}

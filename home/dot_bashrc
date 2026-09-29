@@ -1,0 +1,23 @@
+case $- in
+    *i*) ;;
+    *) return ;;
+esac
+
+if [ -r "$HOME/.config/shell/env.sh" ]; then
+    . "$HOME/.config/shell/env.sh"
+fi
+if [ -r "$HOME/.bash-preexec.sh" ]; then
+    . "$HOME/.bash-preexec.sh"
+fi
+if [ -r "$HOME/.atuin/bin/env" ]; then
+    . "$HOME/.atuin/bin/env"
+fi
+if command -v mise >/dev/null 2>&1; then
+    eval "$(mise activate bash)"
+fi
+if command -v atuin >/dev/null 2>&1 && [ -r "$HOME/.bash-preexec.sh" ]; then
+    eval "$(atuin init bash)"
+fi
+if command -v wt >/dev/null 2>&1; then
+    eval "$(command wt config shell init bash)"
+fi

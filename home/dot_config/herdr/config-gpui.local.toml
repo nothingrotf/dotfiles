@@ -1,0 +1,25 @@
+theme = "Kitty Default"
+confirm_close_tab = true
+show_agents = true
+layout = "comfortable"
+
+[notifications]
+enabled = false
+delay_seconds = 1
+position = "bottom-right"
+
+[sidebar]
+family = "GeistMono Nerd Font Mono"
+size = 12
+
+[tabs]
+family = "GeistMono Nerd Font Mono"
+size = 12
+
+[terminal]
+family = "GeistMono Nerd Font Mono"
+size = 14
+
+[ui]
+family = "GeistMono Nerd Font Mono"
+size = 12

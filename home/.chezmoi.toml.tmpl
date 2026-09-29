@@ -3,6 +3,19 @@
 {{- $zed := promptBoolOnce . "zed" "Manage Zed configuration" true -}}
 {{- $ghostty := promptBoolOnce . "ghostty" "Manage Ghostty configuration" true -}}
 {{- $runtimes := promptBoolOnce . "runtimes" "Manage mise runtime defaults" true -}}
+{{- $brew := promptBoolOnce . "brew" "Manage the macOS Homebrew manifests" false -}}
+{{- $shell := promptBoolOnce . "shell" "Manage shell startup files" false -}}
+{{- $git := promptBoolOnce . "git" "Manage Git configuration" false -}}
+{{- $cli := promptBoolOnce . "cli" "Manage CLI preferences" false -}}
+{{- $herdr := promptBoolOnce . "herdr" "Manage Herdr preferences" false -}}
+{{- $opencode := promptBoolOnce . "opencode" "Manage OpenCode configuration" false -}}
+{{- $kaku := promptBoolOnce . "kaku" "Manage macOS Kaku overrides" false -}}
+{{- $gitName := get . "gitName" | default "" -}}
+{{- $gitEmail := get . "gitEmail" | default "" -}}
+{{- if $git -}}
+{{- $gitName = promptStringOnce . "gitName" "Git author name (machine-local)" $gitName -}}
+{{- $gitEmail = promptStringOnce . "gitEmail" "Git author email (machine-local)" $gitEmail -}}
+{{- end -}}
 sourceDir = {{ .chezmoi.workingTree | quote }}
 
 [data]
@@ -11,3 +24,12 @@ pi = {{ $pi }}
 zed = {{ $zed }}
 ghostty = {{ $ghostty }}
 runtimes = {{ $runtimes }}
+brew = {{ $brew }}
+shell = {{ $shell }}
+git = {{ $git }}
+cli = {{ $cli }}
+herdr = {{ $herdr }}
+opencode = {{ $opencode }}
+kaku = {{ $kaku }}
+gitName = {{ $gitName | quote }}
+gitEmail = {{ $gitEmail | quote }}

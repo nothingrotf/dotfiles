@@ -4,6 +4,7 @@ from pathlib import Path
 import shutil
 import stat
 import subprocess
+import sys
 import tempfile
 import tomllib
 import unittest
@@ -12,7 +13,8 @@ import unittest
 ROOT = Path(__file__).resolve().parents[1]
 CHEZMOI = os.environ.get("DOTFILES_CHEZMOI_BIN") or shutil.which("chezmoi")
 MISE = os.environ.get("DOTFILES_MISE_BIN") or shutil.which("mise")
-MODULES = ("agents", "pi", "zed", "ghostty", "runtimes")
+DEFAULT_MODULES = ("agents", "pi", "zed", "ghostty", "runtimes")
+MODULES = DEFAULT_MODULES + ("brew", "shell", "git", "cli", "herdr", "opencode", "kaku")
 
 
 class DotfilesTests(unittest.TestCase):
@@ -90,6 +92,7 @@ class DotfilesTests(unittest.TestCase):
         self.config.parent.mkdir(parents=True, exist_ok=True)
         data = [f'sourceDir = {json.dumps(str(self.repo))}', "", "[data]"]
         data.extend(f"{module} = {str(module in modules).lower()}" for module in MODULES)
+        data.extend(['gitName = "Test User"', 'gitEmail = "test@example.invalid"'])
         self.config.write_text("\n".join(data) + "\n")
 
     def targets(self, modules=MODULES):
@@ -99,9 +102,24 @@ class DotfilesTests(unittest.TestCase):
             "zed": [("dot_config/zed", ".config/zed")],
             "ghostty": [("dot_config/ghostty", ".config/ghostty")],
             "runtimes": [("dot_config/mise", ".config/mise")],
+            "brew": [("dot_Brewfile", ".Brewfile"), ("dot_config/homebrew", ".config/homebrew")],
+            "shell": [
+                (f"dot_{name}", f".{name}") for name in
+                ("bash_profile", "bashrc", "profile", "zprofile", "zshenv", "zshrc", "tcshrc")
+            ] + [("empty_dot_hushlogin", ".hushlogin")] + [("dot_config/fish", ".config/fish"), ("dot_config/shell", ".config/shell")],
+            "git": [("dot_gitconfig.tmpl", ".gitconfig"), ("dot_config/git", ".config/git")],
+            "cli": [("dot_tmux.conf", ".tmux.conf")] + [
+                (f"dot_config/{name}", f".config/{name}") for name in
+                ("starship.toml", "atuin", "yazi", "worktrunk", "gh", "ccstatusline")
+            ],
+            "herdr": [("dot_config/herdr", ".config/herdr")],
+            "opencode": [("dot_config/opencode", ".config/opencode")],
+            "kaku": [("dot_config/kaku", ".config/kaku")],
         }
         targets = {}
         for module in modules:
+            if module in ("brew", "kaku") and sys.platform != "darwin":
+                continue
             for source_path, target_path in mappings[module]:
                 source = self.repo / "home" / source_path
                 target = self.home / target_path
@@ -128,7 +146,10 @@ class DotfilesTests(unittest.TestCase):
         self.chezmoi("init", "--promptDefaults")
         config = tomllib.loads(self.config.read_text())
         self.assertEqual(Path(config["sourceDir"]), self.repo)
-        self.assertEqual(config["data"], dict.fromkeys(MODULES, True))
+        self.assertEqual(config["data"], {
+            **{module: module in DEFAULT_MODULES for module in MODULES},
+            "gitName": "", "gitEmail": "",
+        })
         source = self.command(CHEZMOI, "--config", str(self.config), "source-path")
         self.assertEqual(Path(source.stdout.strip()), self.repo / "home")
         self.assertTrue(all(not target.exists() for target in self.targets()))
@@ -137,7 +158,10 @@ class DotfilesTests(unittest.TestCase):
         self.select(("agents", "pi"))
         self.chezmoi("init", "--promptDefaults")
         config = tomllib.loads(self.config.read_text())
-        self.assertEqual(config["data"], {module: module in ("agents", "pi") for module in MODULES})
+        self.assertEqual(config["data"], {
+            **{module: module in ("agents", "pi") for module in MODULES},
+            "gitName": "Test User", "gitEmail": "test@example.invalid",
+        })
 
     def test_each_module_has_only_its_own_files(self):
         for module in MODULES:
@@ -159,7 +183,8 @@ class DotfilesTests(unittest.TestCase):
             with self.subTest(target=str(target)):
                 self.assertTrue(target.is_file())
                 self.assertFalse(target.is_symlink())
-                self.assertEqual(target.read_bytes(), source.read_bytes())
+                expected = self.chezmoi("cat", str(target)).stdout.encode() if source.suffix == ".tmpl" else source.read_bytes()
+                self.assertEqual(target.read_bytes(), expected)
                 self.assertEqual(
                     bool(target.stat().st_mode & stat.S_IXUSR),
                     source.name.startswith("executable_"),
@@ -172,13 +197,21 @@ class DotfilesTests(unittest.TestCase):
         self.assertEqual(before, {target: target.stat().st_mtime_ns for target in targets})
         self.assertEqual(self.chezmoi("diff").stdout, "")
         self.assertEqual(self.chezmoi("status").stdout, "")
-        for name in ("README.md", "mise.toml", "tests", ".github"):
+        for name in ("README.md", "mise.toml", "tests", ".github", "scripts", "preferences", "inventory"):
             self.assertFalse((self.home / name).exists())
 
     def test_runtime_sources_are_excluded_and_unmanaged_files_survive(self):
         self.select()
         private_source = self.repo / "home/dot_pi/private_agent/auth.json"
         private_source.write_text('{"token":"source-only-test-value"}\n')
+        for relative in (
+            "dot_config/gh/hosts.yml", "dot_config/herdr/github-credentials",
+            "dot_config/herdr/session.json", "dot_config/fish/fish_variables",
+            "dot_config/kaku/state.json", "dot_gitconfig.local",
+        ):
+            source = self.repo / "home" / relative
+            source.parent.mkdir(parents=True, exist_ok=True)
+            source.write_text("source-only-test-value\n")
         sessions = self.repo / "home/dot_pi/private_agent/sessions"
         sessions.mkdir()
         (sessions / "private.jsonl").write_text("source session\n")
@@ -189,6 +222,13 @@ class DotfilesTests(unittest.TestCase):
             ".agents/skills/local/SKILL.md": "local skill\n",
             ".config/zed/private.json": "local setting\n",
             ".config/mise/config.toml": "[settings]\ncolor = false\n",
+            ".gitconfig.local": "[user]\nname = Local User\n",
+            ".config/gh/hosts.yml": "local auth state\n",
+            ".config/fish/fish_variables": "local shell state\n",
+            ".config/herdr/session.json": "local session\n",
+            ".config/herdr/github-credentials": "local credential state\n",
+            ".config/kaku/state.json": "local terminal state\n",
+            ".local/share/atuin/history.db": "local history\n",
         }
         for relative, content in unmanaged.items():
             path = self.home / relative
@@ -231,6 +271,37 @@ class DotfilesTests(unittest.TestCase):
             self.assertEqual(tools[name][0]["requested_version"], version)
         self.assertFalse((Path(self.env["MISE_DATA_DIR"]) / "installs").exists())
 
+    def test_git_identity_is_local_and_local_overrides_survive(self):
+        self.select(("git",))
+        self.chezmoi("init", "--promptDefaults")
+        data = tomllib.loads(self.config.read_text())["data"]
+        self.assertEqual(data["gitName"], "Test User")
+        self.assertEqual(data["gitEmail"], "test@example.invalid")
+        self.chezmoi("apply", "--force")
+        gitconfig = self.home / ".gitconfig"
+        self.assertEqual(self.command("git", "config", "--file", str(gitconfig), "user.name").stdout.strip(), "Test User")
+        local = self.home / ".gitconfig.local"
+        local.write_text('[user]\nname = Local User\n')
+        result = self.command("git", "config", "--includes", "--file", str(gitconfig), "user.name")
+        self.assertEqual(result.stdout.strip(), "Local User")
+        self.chezmoi("apply", "--force")
+        self.assertEqual(local.read_text(), '[user]\nname = Local User\n')
+
+    def test_git_apply_rejects_missing_identity_without_overwriting(self):
+        self.select(("git",))
+        gitconfig = self.home / ".gitconfig"
+        gitconfig.write_text('[user]\nname = Existing User\nemail = existing@example.invalid\n')
+        for key, replacement in (("gitName", ""), ("gitEmail", ""), ("gitName", "   "), ("gitEmail", "   ")):
+            with self.subTest(key=key, replacement=replacement):
+                self.select(("git",))
+                data = self.config.read_text()
+                value = "Test User" if key == "gitName" else "test@example.invalid"
+                self.config.write_text(data.replace(f'{key} = "{value}"', f'{key} = "{replacement}"'))
+                result = self.chezmoi("apply", "--force", check=False)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("Git author name and email", result.stderr)
+                self.assertIn("Existing User", gitconfig.read_text())
+
     def test_private_paths_are_ignored_by_git(self):
         paths = [
             "mise.local.toml",
@@ -247,6 +318,13 @@ class DotfilesTests(unittest.TestCase):
             "home/private_dot_pi/private_agent/state/runtime.json",
             "home/dot_agents/rules/pstack-models.md.bkp1",
             "backups/settings.json",
+            "home/dot_gitconfig.local",
+            "home/dot_config/gh/hosts.yml",
+            "home/dot_config/herdr/github-credentials",
+            "home/dot_config/herdr/session.json",
+            "home/dot_config/fish/fish_variables",
+            "home/dot_config/worktrunk/config.toml.lock",
+            "home/dot_config/kaku/state.json",
         ]
         for path in paths:
             with self.subTest(path=path):
