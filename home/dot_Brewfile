@@ -1,11 +1,9 @@
-tap "alexsjones/llmfit", "https://github.com/AlexsJones/homebrew-llmfit"
 tap "anomalyco/tap"
 tap "compozy/compozy"
 tap "facebook/fb", trusted: true
 tap "greptileai/tap"
 tap "jesseduffield/lazydocker"
 tap "modem-dev/tap"
-tap "multica-ai/tap"
 tap "penso/tap", trusted: true
 tap "pgrundev/tap"
 tap "revylai/tap"
@@ -13,7 +11,6 @@ tap "rjyo/moshi", trusted: true
 tap "stripe/stripe-cli"
 tap "tw93/tap"
 tap "withgraphite/tap"
-tap "zennotes/tap"
 brew "actionlint"
 brew "node"
 brew "agent-browser"
@@ -53,7 +50,6 @@ brew "worktrunk"
 brew "yazi"
 brew "yt-dlp"
 brew "zoxide"
-brew "alexsjones/llmfit/llmfit", trusted: true
 brew "anomalyco/tap/opencode", trusted: true
 brew "compozy/compozy/compozy", trusted: true
 brew "facebook/fb/idb-companion"
@@ -61,7 +57,6 @@ brew "greptileai/tap/greptile", trusted: true
 brew "pgrundev/tap/pgbot", trusted: true
 brew "rjyo/moshi/moshi-hook"
 brew "stripe/stripe-cli/stripe", trusted: true
-cask "agentsview"
 cask "bitwarden"
 cask "codex"
 cask "companion"
@@ -73,8 +68,6 @@ cask "revylai/tap/greenlight", trusted: true
 cask "tw93/tap/kakuku", trusted: true
 cask "libreoffice"
 cask "t3-code"
-cask "tolaria"
-cask "zennotes/tap/zennotes", trusted: true
 go "golang.org/x/tools/gopls"
 go "golang.org/x/vuln/cmd/govulncheck"
 go "github.com/equipe-tech/musubi"
