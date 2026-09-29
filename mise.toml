@@ -1,0 +1,38 @@
+min_version = "2026.9.16"
+
+[tools]
+chezmoi = "2.73.0"
+
+[tasks.init]
+description = "Select this machine's configuration modules"
+raw = true
+run = 'chezmoi --source "{{ config_root }}" init'
+
+[tasks.plan]
+description = "Preview dotfiles without changing the home directory"
+run = 'chezmoi --source "{{ config_root }}" apply --dry-run --verbose'
+
+[tasks.diff]
+description = "Compare managed files with this checkout"
+run = 'chezmoi --source "{{ config_root }}" --no-pager diff'
+
+[tasks.status]
+description = "Show pending dotfile changes"
+run = 'chezmoi --source "{{ config_root }}" status'
+
+[tasks.apply]
+description = "Review differences and interactively apply dotfiles"
+depends = ["diff"]
+raw = true
+run = 'chezmoi --source "{{ config_root }}" apply --interactive'
+
+[tasks."pi:deps"]
+description = "Install dependencies in the existing local Pi extensions checkout"
+dir = "{{ env.HOME }}/Workspaces/pi-extensions"
+tools.bun = "1.4.2"
+run = "bun install --frozen-lockfile"
+
+[tasks.test]
+description = "Test deployment in isolated temporary home directories"
+tools.python = "3.14.0"
+run = "python3 -m unittest discover -s tests -v"

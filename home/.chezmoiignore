@@ -1,0 +1,48 @@
+{{ if not (get . "agents") }}
+AGENTS.md
+.agents
+{{ end }}
+{{ if not (get . "pi") }}
+.pi
+{{ end }}
+{{ if not (get . "zed") }}
+.config/zed
+{{ end }}
+{{ if not (get . "ghostty") }}
+.config/ghostty
+{{ end }}
+{{ if not (get . "runtimes") }}
+.config/mise
+{{ end }}
+**/.DS_Store
+**/auth.json
+**/models-store.json
+**/mcp-onboarding.json
+**/mcp-project-approvals.json
+**/mcp-cache.json
+**/mcp-npx-cache.json
+**/mcp-oauth
+**/sessions
+**/run-history.jsonl
+**/crashes.json
+**/trust.json
+**/.env
+**/.env.*
+**/.npmrc
+**/*.pem
+**/*.key
+**/*.log
+**/*.db
+**/*.mdb
+**/*.tmp
+**/*.bak
+**/*.bkp*
+**/node_modules
+.pi/agent/state
+.pi/agent/worktrees
+.pi/agent/bin
+.pi/agent/poteto
+.pi/agent/git
+.pi/agent/npm
+.pi/agent/web-search-cache
+.pi/agent/.fusion-usage-cache.json

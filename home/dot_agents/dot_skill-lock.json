@@ -1,0 +1,170 @@
+{
+  "version": 3,
+  "skills": {
+    "app-store-preflight-compliance": {
+      "source": "RevylAI/greenlight",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/RevylAI/greenlight.git",
+      "skillPath": "codex-skill/SKILL.md",
+      "skillFolderHash": "d051acdbe5f35eee82a0c1c1c34129a23b2a0ef4",
+      "installedAt": "2026-08-12T07:49:32.462Z",
+      "updatedAt": "2026-08-12T07:49:32.462Z"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/skills.git",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "skillFolderHash": "76a98a285cb0434f3d39e1a873823556330e398b",
+      "installedAt": "2026-08-06T06:36:17.383Z",
+      "updatedAt": "2026-08-06T06:36:17.383Z"
+    },
+    "gh-stack": {
+      "source": "github/gh-stack",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/github/gh-stack.git",
+      "skillPath": "skills/gh-stack/SKILL.md",
+      "skillFolderHash": "c95c8b5b4dd850f3fef007b304428f5684f2fb87",
+      "installedAt": "2026-08-23T15:38:51Z",
+      "updatedAt": "2026-08-23T15:38:51Z"
+    },
+    "show-me": {
+      "source": "humanlayer/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/humanlayer/skills.git",
+      "skillPath": "plugins/show-me/skills/show-me/SKILL.md",
+      "skillFolderHash": "0bdb821a21e793a4f6f82a7078c052154447e5cc",
+      "installedAt": "2026-08-25T22:34:40.116Z",
+      "updatedAt": "2026-09-09T03:26:15.989Z"
+    },
+    "before-and-after": {
+      "source": "vercel-labs/before-and-after",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/before-and-after.git",
+      "skillPath": "skill/SKILL.md",
+      "skillFolderHash": "494b495538546c3a5594285e726970ff8f27a1ee",
+      "installedAt": "2026-08-27T20:01:51.555Z",
+      "updatedAt": "2026-08-27T20:01:51.555Z"
+    },
+    "agent-browser": {
+      "source": "vercel-labs/agent-browser",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
+      "skillPath": "skills/agent-browser/SKILL.md",
+      "skillFolderHash": "82def67855a0d2aad7794207951820fa5422fdb0",
+      "installedAt": "2026-08-28T17:14:36.146Z",
+      "updatedAt": "2026-08-28T17:14:36.146Z"
+    },
+    "herdr": {
+      "source": "herdrdev/herdr",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/herdrdev/herdr.git",
+      "skillPath": "skills/herdr/SKILL.md",
+      "skillFolderHash": "b9dcfddcfa7ce43e2e4cf60e724c519be553f149",
+      "installedAt": "2026-09-09T22:52:09.701Z",
+      "updatedAt": "2026-09-09T22:52:09.701Z"
+    },
+    "domain-modeling": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/domain-modeling/SKILL.md",
+      "skillFolderHash": "388c9822641805ca2dcd5038e68a1d5282437ee5",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-09-15T05:37:24.644Z",
+      "updatedAt": "2026-09-15T05:37:24.644Z"
+    },
+    "kill-ai-slop": {
+      "source": "yetone/kill-ai-slop",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/yetone/kill-ai-slop.git",
+      "skillPath": "skill/SKILL.md",
+      "skillFolderHash": "a813b0155f5ba25f8b2cdee5a26541ab90ce4a22",
+      "installedAt": "2026-09-24T06:25:31.936Z",
+      "updatedAt": "2026-09-24T17:36:21.215Z"
+    },
+    "to-spec": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/to-spec/SKILL.md",
+      "skillFolderHash": "136b9651747cfccbfbb7c50a6b0dfb757e7547d2",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-09-28T21:57:45.084Z",
+      "updatedAt": "2026-09-28T21:57:45.084Z"
+    },
+    "to-tickets": {
+      "source": "mattpocock/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "skillPath": "skills/engineering/to-tickets/SKILL.md",
+      "skillFolderHash": "b32c94e5a51c24ee9c41fcb7fe9ea9fff9af6369",
+      "pluginName": "mattpocock-skills",
+      "installedAt": "2026-09-28T21:57:45.085Z",
+      "updatedAt": "2026-09-28T21:57:45.085Z"
+    },
+    "cloudflare": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/cloudflare/SKILL.md",
+      "skillFolderHash": "b192c4da28b205911e4ef3c5c66858664ba97865",
+      "installedAt": "2026-09-29T04:44:20.837Z",
+      "updatedAt": "2026-09-29T04:44:20.837Z"
+    },
+    "cloudflare-one": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/cloudflare-one/SKILL.md",
+      "skillFolderHash": "a8a51a262e27978faa5bf754d2b3529adcac7008",
+      "installedAt": "2026-09-29T04:44:20.838Z",
+      "updatedAt": "2026-09-29T04:44:20.838Z"
+    },
+    "durable-objects": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/durable-objects/SKILL.md",
+      "skillFolderHash": "4f749492261c6e9895823b3e3bcea54db583623f",
+      "installedAt": "2026-09-29T04:44:20.839Z",
+      "updatedAt": "2026-09-29T04:44:20.839Z"
+    },
+    "workers-best-practices": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/workers-best-practices/SKILL.md",
+      "skillFolderHash": "2b353123539948ca95c757166437c1fc5eefc208",
+      "installedAt": "2026-09-29T04:44:20.839Z",
+      "updatedAt": "2026-09-29T04:44:20.839Z"
+    },
+    "wrangler": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/wrangler/SKILL.md",
+      "skillFolderHash": "2cef5beb18fd736ee300a08fc87fca16522f14d6",
+      "installedAt": "2026-09-29T04:44:20.839Z",
+      "updatedAt": "2026-09-29T04:44:20.839Z"
+    }
+  },
+  "dismissed": {
+    "findSkillsPrompt": true
+  },
+  "lastSelectedAgents": [
+    "amp",
+    "cline",
+    "codex",
+    "cursor",
+    "droid",
+    "gemini-cli",
+    "github-copilot",
+    "kilo",
+    "kimi-code-cli",
+    "opencode",
+    "warp",
+    "zed",
+    "claude-code"
+  ]
+}

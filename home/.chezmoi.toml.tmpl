@@ -1,0 +1,13 @@
+{{- $agents := promptBoolOnce . "agents" "Manage shared agent configuration" true -}}
+{{- $pi := promptBoolOnce . "pi" "Manage Pi configuration" true -}}
+{{- $zed := promptBoolOnce . "zed" "Manage Zed configuration" true -}}
+{{- $ghostty := promptBoolOnce . "ghostty" "Manage Ghostty configuration" true -}}
+{{- $runtimes := promptBoolOnce . "runtimes" "Manage mise runtime defaults" true -}}
+sourceDir = {{ .chezmoi.workingTree | quote }}
+
+[data]
+agents = {{ $agents }}
+pi = {{ $pi }}
+zed = {{ $zed }}
+ghostty = {{ $ghostty }}
+runtimes = {{ $runtimes }}

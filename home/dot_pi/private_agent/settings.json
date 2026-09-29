@@ -1,0 +1,64 @@
+{
+  "images": {
+    "blockImages": false
+  },
+  "terminal": {
+    "showImages": false
+  },
+  "hideThinkingBlock": true,
+  "quietStartup": true,
+  "steeringMode": "all",
+  "followUpMode": "all",
+  "collapseChangelog": true,
+  "enableInstallTelemetry": false,
+  "warnings": {
+    "anthropicExtraUsage": false
+  },
+  "editorPaddingX": 0,
+  "theme": "neosh",
+  "defaultProjectTrust": "always",
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:pi-web-access",
+    "npm:@gotgenes/pi-anthropic-auth",
+    "../../Workspaces/pi-extensions/packages/inline-skill",
+    "../../Workspaces/pi-extensions/packages/fast-mode",
+    "../../Workspaces/pi-extensions/packages/hud",
+    "../../Workspaces/pi-extensions/packages/loop",
+    "../../Workspaces/pi-extensions/packages/goal",
+    "../../Workspaces/pi-extensions/packages/todo",
+    "../../Workspaces/pi-extensions/packages/ask",
+    "../../Workspaces/pi-extensions/packages/session-history",
+    "../../Workspaces/pi-extensions/packages/subagent",
+    "../../Workspaces/pi-extensions/packages/pstack",
+    "../../Workspaces/pi-extensions/packages/compact",
+    "../../Workspaces/pi-extensions/packages/tgrep",
+    "../../Workspaces/pi-extensions/packages/filetools"
+  ],
+  "enabledModels": [
+    "anthropic/claude-opus-5-5",
+    "anthropic/claude-fable-5-1",
+    "anthropic/claude-sonnet-5-5",
+    "openai-codex/gpt-6-astra",
+    "openai-codex/gpt-6-sol",
+    "openai-codex/gpt-6-luna"
+  ],
+  "subagents": {
+    "disableBuiltins": true
+  },
+  "lastChangelogVersion": "0.87.1",
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-6-sol",
+  "defaultThinkingLevel": "medium",
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 32000,
+    "keepRecentTokens": 12000
+  },
+  "fullscreenScrollbar": "always",
+  "tuiMode": "fullscreen",
+  "markdown": {
+    "mermaid": "streaming"
+  },
+  "outputPad": 1
+}
