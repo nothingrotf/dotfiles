@@ -147,6 +147,24 @@
       "skillFolderHash": "2cef5beb18fd736ee300a08fc87fca16522f14d6",
       "installedAt": "2026-09-29T04:44:20.839Z",
       "updatedAt": "2026-09-29T04:44:20.839Z"
+    },
+    "cloudflare-email-service": {
+      "source": "cloudflare/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cloudflare/skills.git",
+      "skillPath": "skills/cloudflare-email-service/SKILL.md",
+      "skillFolderHash": "8b632c63261e4658200960df9be24080660ab3e3",
+      "installedAt": "2026-09-29T14:56:23.744Z",
+      "updatedAt": "2026-09-29T14:56:23.744Z"
+    },
+    "emil-design-eng": {
+      "source": "emilkowalski/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "skillPath": "skills/emil-design-eng/SKILL.md",
+      "skillFolderHash": "db7a20dc1d8ad26a0307dcb45ebc79fc372f5c69",
+      "installedAt": "2026-09-30T22:47:08.503Z",
+      "updatedAt": "2026-09-30T22:47:08.503Z"
     }
   },
   "dismissed": {
