@@ -135,7 +135,7 @@ Do not copy credentials into a template or commit them under an unrecognized fil
 
 ## Local Pi extensions
 
-The imported Pi settings keep all 13 local package paths from the current machine.
+The Pi settings preserve the selected local package paths from the current machine.
 They resolve from `~/.pi/agent` to `~/Workspaces/pi-extensions/packages/`.
 They contain no fixed username or absolute macOS home path.
 

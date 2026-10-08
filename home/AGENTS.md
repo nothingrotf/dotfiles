@@ -15,6 +15,14 @@
 - Before a feature immediately starts a large swarm of subagents, explain its tradeoffs and obtain explicit approval.
 - Never write code comments unless the user explicitly includes the exact phrase "add comments".
 
+## Pull request standard
+
+Use `~/.agents/skills/pr/SKILL.md` as the default for creating or updating pull request bodies and attaching PR or issue media.
+Read the skill before these tasks and follow its template, evidence requirements, and applicable references.
+Keep the skill as the source of truth instead of copying its contents into project instructions.
+Publish, push, or edit remote content only when the user authorizes that action.
+If the user requests only body text, return the text without publication.
+
 ## Code search with tgrep
 
 Prefer Microsoft tgrep over `grep` or `rg` for repository content searches.
